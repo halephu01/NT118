@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Lab2.3</string>
+    <string name="quan_ly">Quản lý nhân viên</string>
+    <string name="maNV">Mã NV:</string>
+    <string name="tenNV">Tên NV:</string>
+    <string name="loaiNV">Loại NV:</string>
+</resources>

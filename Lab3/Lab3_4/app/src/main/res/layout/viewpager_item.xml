@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pink"
+    android:id="@+id/screen"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/greengreen"
+        android:gravity="center"
+        android:text=""
+        android:textSize="30dp"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/name"
+        android:layout_marginTop="60dp"
+        android:text="Position:"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/positionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/name"
+        android:layout_alignLeft="@+id/position"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="95dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:textSize="20dp"
+        android:text="Email:"
+        android:textStyle="bold"
+        android:layout_alignTop="@id/position"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailName"
+        android:text=""
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/positionName"
+        android:layout_alignLeft="@+id/email"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="70dp"/>
+
+</RelativeLayout>
