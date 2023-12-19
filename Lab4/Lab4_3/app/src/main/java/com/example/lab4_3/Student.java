@@ -1,43 +1,54 @@
 package com.example.lab4_3;
 
 public class Student {
-    private int id;
-    private String studentid;
-    private String name;
-    private int age;
-    private float score;
-    private String address;
+    private int Id;
+    private String Name;
+    private String Email;
+    private String PhoneNumber;
+    private String Score;
+    private String Address;
 
-    Student(int id, String studentid, String name, int age, float score, String address){
-        this.id = id;
-        this.studentid = studentid;
-        this.name = name;
-        this.age = age;
-        this.score = score;
-        this.address = address;
+    public Student(String name, String email, String phoneNumber, String score, String address) {
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Score = score;
+        Address = address;
     }
 
-    public int getId() {
-        return id;
+    public Student(int id, String name, String email, String phoneNumber, String score, String address) {
+        Id = id;
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Score = score;
+        Address = address;
     }
 
-    public String getStudentid() {
-        return studentid;
+    public void update(String name, String email, String phoneNumber, String score, String address) {
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Score= score;
+        Address = address;
     }
 
-    public String getName() {
-        return name;
+    int getId(){
+        return Id;
     }
-
-    public int getAge() {
-        return age;
+    String getName(){
+        return Name;
     }
-
-    public float getScore() {
-        return score;
+    String getPhoneNumber(){
+        return PhoneNumber;
     }
-
-    public String getAddress() {
-        return address;
+    String getEmail(){
+        return Email;
+    }
+    String getScore(){
+        return Score;
+    }
+    String getAddress(){
+        return Address;
     }
 }

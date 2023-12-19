@@ -3,34 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="10dp"
+    android:weightSum="10">
 
     <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:id="@+id/tVName"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="2"
+        android:textStyle="bold"
+        android:inputType="text"/>
 
     <TextView
-        android:id="@+id/textViewStudentID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/textViewAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:id="@+id/tVEmail"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="2"
+        android:inputType="textEmailAddress"
         android:textColor="@android:color/darker_gray"/>
     <TextView
-        android:id="@+id/textViewAVGScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:id="@+id/tVPhoneNubmer"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="2"
+        android:inputType="phone"
+        android:textColor="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="2"
+        android:inputType="numberDecimal"
+        android:textColor="@android:color/darker_gray"/>
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="2"
+        android:inputType="text"
         android:textColor="@android:color/darker_gray"/>
 
 </LinearLayout>

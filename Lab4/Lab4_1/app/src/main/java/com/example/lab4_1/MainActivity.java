@@ -1,16 +1,15 @@
 package com.example.lab4_1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.example.lab4_1.DbAdapter;
 public class MainActivity extends AppCompatActivity {
     private DbAdapter dbAdapter;
     private Cursor cursor;
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         users = getData();
         showData();
     }
+    @SuppressLint("Range")
     private List<String> getData() {
         List<String> users = new ArrayList<>();
         cursor = dbAdapter.getAllUsers();

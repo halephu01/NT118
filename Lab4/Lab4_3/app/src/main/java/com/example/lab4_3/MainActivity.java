@@ -1,137 +1,91 @@
 package com.example.lab4_3;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnItemClickListener {
-    private EditText editTextStudentID;
-    private EditText editTextName;
-    private EditText editTextAge;
-    private EditText editAVGScore;
-    private EditText editAddress;
-    private StudentAdapter studentAdapter;
-    private SQLiteDatabase database;
+public class MainActivity extends AppCompatActivity {
+    private RecyclerView rView;
+    private StudentAdapter adapter;
+    private Button btnAdd;
+    private EditText edName;
+    private EditText edEmail;
+    private EditText edPhone;
+    private EditText edScore;
+    private EditText edAddress;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DatabaseHandler db = new DatabaseHandler(this);
+        db.deleteAllContacts();
 
-        editTextStudentID = findViewById(R.id.editTextStudentID);
-        editTextName = findViewById(R.id.editTextName);
-        editTextAge = findViewById(R.id.editTextAge);
-        editAVGScore = findViewById(R.id.editAVGScore);
-        editAddress = findViewById(R.id.editAddress);
-        Button buttonAdd = findViewById(R.id.buttonAdd);
-        RecyclerView recyclerViewStudents = findViewById(R.id.recyclerViewStudents);
+        rView = findViewById(R.id.recyclerView);
+        adapter = new StudentAdapter(this);
+        adapter.setDB(db);
 
-        studentAdapter = new StudentAdapter();
-        studentAdapter.setOnItemClickListener(this);
-        recyclerViewStudents.setAdapter(studentAdapter);
-        recyclerViewStudents.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rView.setLayoutManager(linearLayoutManager);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-        database = dbHelper.getWritableDatabase();
+        List<Student> students = db.getAllStudents();
 
-        Cursor cursor = database.rawQuery("SELECT * FROM students", null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                String studentID = cursor.getString(cursor.getColumnIndex("studentid"));
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                int age = cursor.getInt(cursor.getColumnIndex("age"));
-                float score = cursor.getFloat(cursor.getColumnIndex("score"));
-                String address = cursor.getString(cursor.getColumnIndex("address"));
-                Student student = new Student(id, studentID, name, age, score, address);
-                studentAdapter.addStudent(student);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        adapter.setData(students);
+        rView.setAdapter(adapter);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        btnAdd = findViewById(R.id.btnAdd);
+        edName = findViewById(R.id.eTName);
+        edEmail = findViewById(R.id.eTEmail);
+        edPhone = findViewById(R.id.editTextPhone);
+        edScore = findViewById(R.id.editTextScore);
+        edAddress = findViewById(R.id.editTextAddress);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String studentid = editTextStudentID.getText().toString();
-                String name = editTextName.getText().toString();
-                int age = Integer.parseInt(editTextAge.getText().toString());
-                float score = Float.parseFloat(editAVGScore.getText().toString());
-                String address = editAddress.getText().toString();
-                ContentValues values = new ContentValues();
-                values.put("studentid", studentid);
-                values.put("name", name);
-                values.put("age", age);
-                values.put("score", score);
-                values.put("address", address);
-                long id = database.insert("students", null, values);
-                Student student = new Student((int) id, studentid, name, age, score, address);
-                studentAdapter.addStudent(student);
-                editTextStudentID.setText("");
-                editTextName.setText("");
-                editTextAge.setText("");
-                editAVGScore.setText("");
-                editAddress.setText("");
-            }
-        });
-    }
+                if (edName.getText().length() == 0 ||
+                        edEmail.getText().length() == 0||
+                        edPhone.getText().length() == 0||
+                        edScore.getText().length() == 0||
+                        edAddress.getText().length() == 0)
+                {
+                    Toast toast = Toast.makeText(MainActivity.this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else
+                {
+                    Student new_stu = new Student(edName.getText().toString(),
+                            edEmail.getText().toString(),
+                            edPhone.getText().toString(),
+                            edScore.getText().toString(),
+                            edAddress.getText().toString());
 
-    @Override
-    public void onItemClick(final Student student) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit student");
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_student, null);
-        final EditText editTextStudentID = view.findViewById(R.id.edit1TextStudentID);
-        final EditText editTextName = view.findViewById(R.id.edit1TextName);
-        final EditText editTextAge = view.findViewById(R.id.edit1TextAge);
-        final EditText editTextAVGScore = view.findViewById(R.id.edit1TextAVGScore);
-        final EditText editTextAddress = view.findViewById(R.id.edit1TextAddress);
-        editTextStudentID.setText(student.getStudentid());
-        editTextName.setText(student.getName());
-        editTextAge.setText(String.valueOf(student.getAge()));
-        editTextAVGScore.setText(String.valueOf(student.getScore()));
-        editTextAddress.setText(student.getAddress());
-        builder.setView(view);
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String studentid = editTextStudentID.getText().toString();
-                String name = editTextName.getText().toString();
-                int age = Integer.parseInt(editTextAge.getText().toString());
-                float score = Float.parseFloat(editTextAVGScore.getText().toString());
-                String address = editTextAddress.getText().toString();
-                ContentValues values = new ContentValues();
-                values.put("studentid", studentid);
-                values.put("name", name);
-                values.put("age", age);
-                values.put("score", score);
-                values.put("address", address);
-                database.update("students", values, "id = ?", new String[]{String.valueOf(student.getId())});
-                studentAdapter.updateStudent(new Student(student.getId(), studentid, name, age, score, address));
-                editTextStudentID.setText(studentid);
-                editTextName.setText(name);
-                editTextAge.setText(String.valueOf(age));
-                editTextAVGScore.setText(String.valueOf(score));
-                editTextAddress.setText(address);
+
+                    db.addStudent(new_stu);
+                    students.add(new_stu);
+                    adapter.setData(students);
+                    adapter.notifyDataSetChanged();
+                    edName.setText("");
+                    edEmail.setText("");
+                    edPhone.setText("");
+                    edScore.setText("");
+                    edAddress.setText("");
+                }
             }
         });
-        builder.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                database.delete("students", "id = ?", new String[]{String.valueOf(student.getId())});
-                studentAdapter.deleteStudent(student);
-            }
-        });
-        builder.show();
     }
 }

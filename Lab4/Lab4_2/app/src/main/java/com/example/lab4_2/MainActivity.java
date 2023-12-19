@@ -70,17 +70,13 @@ public class MainActivity extends AppCompatActivity {
         lvContact.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Lấy đối tượng Contact từ danh sách ứng với vị trí được nhấn giữ
                 Contact selectedContact = (Contact) parent.getItemAtPosition(position);
 
-                // Xóa đối tượng từ cơ sở dữ liệu
                 db.deleteContact(selectedContact);
 
-                // Cập nhật danh sách và thông báo là đã thay đổi
                 adapter.remove(selectedContact);
                 adapter.notifyDataSetChanged();
 
-                // Trả về true để chỉ định rằng sự kiện đã được xử lý
                 return true;
             }
         });
